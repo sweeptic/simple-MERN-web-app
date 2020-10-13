@@ -7,16 +7,20 @@ import {
 } from "react-router-dom"; //named
 import { Places } from "./places/pages/Places";
 import Users from "./users/pages/Users";
+import MainNavigation from "./shared/components/navigation/MainNavigation";
 
 const App = () => {
   return (
     <Router>
-      <Switch>
-        <Route path="/" exact component={Users} />
-        <Route path="/Places" component={Places} />
+      <MainNavigation />
+      <main>
+        <Switch>
+          <Route path="/" exact component={Users} />
+          <Route path="/Places" component={Places} />
 
-        <Redirect to="/" />
-      </Switch>
+          <Redirect to="/" />
+        </Switch>
+      </main>
     </Router>
   );
 };
