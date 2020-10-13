@@ -1,5 +1,17 @@
-import React from 'react';  //default
+import React from "react";
+import { UsersList } from "./../components/UsersList";
 
-export const Users = (params) => {
-   return <p>im am user</p>
-}
+const Users = () => {
+  const USERS = [
+     { 
+     id='u1',
+     image='someurl',
+     name='Tom Hanks',
+     placeCount='3'
+     }
+   ];
+
+  return <UsersList items={USERS} />;
+};
+
+export default Users;
