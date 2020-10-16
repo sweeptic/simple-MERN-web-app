@@ -24,22 +24,36 @@ const App = () => {
     setIsLoggedIn(false);
   }, []);
 
+  let routes;
+
+  if (isLoggedIn) {
+    routes = (
+      <Switch>
+        <Route path="/" exact component={Users} />
+        <Route path="/:userId/places" exact component={UserPlaces} />
+        <Route path="/places/new" exact component={NewPlace} />
+        <Route path="/places/:placeId" component={UpdatePlace} />
+        <Redirect to="/" />
+      </Switch>
+    );
+  } else {
+    routes = (
+      <Switch>
+        <Route path="/" exact component={Users} />
+        <Route path="/:userId/places" exact component={UserPlaces} />
+        <Route path="/auth" component={Auth} />
+        <Redirect to="/auth" />
+      </Switch>
+    );
+  }
+
   return (
     <AuthContext.Provider
       value={{ isLoggedIn: isLoggedIn, login: login, logout: logout }}
     >
       <Router>
         <MainNavigation />
-        <main>
-          <Switch>
-            <Route path="/" exact component={Users} />
-            <Route path="/:userId/places" exact component={UserPlaces} />
-            <Route path="/places/new" exact component={NewPlace} />
-            <Route path="/places/:placeId" component={UpdatePlace} />
-            <Route path="/auth" component={Auth} />
-            <Redirect to="/" />
-          </Switch>
-        </main>
+        <main>{routes}</main>
       </Router>
     </AuthContext.Provider>
   );
