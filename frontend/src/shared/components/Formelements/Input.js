@@ -22,8 +22,8 @@ const Input = (props) => {
   };
 
   const initialState = {
-    value: props.value || '',
-    isValid: props.valid || false,
+    value: props.initialValue || '',
+    isValid: props.initialValid || false,
     isTouched: false,
   };
 
