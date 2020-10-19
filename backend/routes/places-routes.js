@@ -2,6 +2,10 @@ const express = require('express');
 
 const router = express.Router();
 
+// const express = require('express');
+
+const HttpError = require('../model/http-error');
+
 // import UserController from './app/controllers/UserController';
 const DUMMY_PLACES = [
   {
@@ -28,10 +32,8 @@ router.get('/:pid', (req, res, next) => {
   if (!place) {
     // throw error -> sync
     // next -> use case of async error
-    const error = new Error('Could not find a place for the provided id');
-    error.code = 404;
+    throw new HttpError('Could not find a place for the provided id', 404);
     //  throw error; //already cancel execution
-    return next(error);
   }
 
   res.json({ place }); //place:place
@@ -45,10 +47,7 @@ router.get('/user/:uid', (req, res, next) => {
   });
 
   if (!place) {
-    const error = new Error('Could not find a place for the provided user id');
-    error.code = 404;
-    //  return next(error);
-    throw error;
+    throw new HttpError('Could not find a place for the provided user id', 404);
   }
 
   res.json({ place }); //place:place
