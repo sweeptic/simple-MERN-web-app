@@ -1,5 +1,5 @@
 const placesRoutes = require('./routes/places-routes');
-// const usersRoutes = require('./routes/users-routes');
+const usersRoutes = require('./routes/users-routes');
 
 const express = require('express');
 
@@ -13,6 +13,7 @@ const app = express();
 app.use(bodyParser.json({ extended: false }));
 
 app.use('/api/places', placesRoutes);
+app.use('/api/users', usersRoutes);
 
 //fallback middleware
 app.use((req, res, next) => {
