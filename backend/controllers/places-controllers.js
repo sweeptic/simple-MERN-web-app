@@ -1,3 +1,5 @@
+const { v4: uuid } = require('uuid');
+
 const HttpError = require('../model/http-error');
 
 const DUMMY_PLACES = [
@@ -15,7 +17,7 @@ const DUMMY_PLACES = [
 ];
 
 const getPlaceById = (req, res, next) => {
-  console.log('/:pid');
+  // console.log('/:pid');
   const placeId = req.params.pid; //{pid: 'p1'}
   const place = DUMMY_PLACES.find(p => {
     return p.id === placeId;
@@ -32,12 +34,12 @@ const getPlaceById = (req, res, next) => {
 };
 
 const getPlaceByUserId = (req, res, next) => {
-  console.log('/user/:uid');
+  // console.log('/user/:uid');
   const userId = req.params.uid; //{pid: 'p1'}
   const place = DUMMY_PLACES.find(p => {
     return p.creator === userId;
   });
-
+  // console.log(DUMMY_PLACES);
   if (!place) {
     throw new HttpError('Could not find a place for the provided user id', 404);
   }
@@ -45,5 +47,26 @@ const getPlaceByUserId = (req, res, next) => {
   res.json({ place }); //place:place
 };
 
+const createPlace = (req, res, next) => {
+  const { title, description, coordinates, address, creator } = req.body;
+  const createdPlace = {
+    id: uuid(),
+    title, //title: title
+    description,
+    location: coordinates,
+    address,
+    creator,
+  };
+  // console.log(createdPlace);
+  DUMMY_PLACES.push(createdPlace);
+
+  res.status(201).json({ place: createdPlace });
+};
+
 exports.getPlaceById = getPlaceById;
 exports.getPlaceByUserId = getPlaceByUserId;
+exports.createPlace = createPlace;
+/*
+const createPlace = (req, res, next) => {};
+
+*/
