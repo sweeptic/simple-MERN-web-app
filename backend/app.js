@@ -34,8 +34,8 @@ app.use((error, req, res, next) => {
 // app.use('/api/users', usersRoutes);
 
 const URL =
-  'mongodb+srv://olive4:hardfloor@nodejs.zzg9t.mongodb.net/test-nodejs_database?authSource=admin&replicaSet=atlas-fhng2k-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true';
+  'mongodb+srv://olive4:hardfloor@nodejs.zzg9t.mongodb.net/MERN_test-nodejs_database?authSource=admin&replicaSet=atlas-fhng2k-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true';
 mongoose
-  .connect(URL)
+  .connect(URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => app.listen(5000))
   .catch(err => console.log(err));
