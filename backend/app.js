@@ -5,6 +5,7 @@ const express = require('express');
 
 const bodyParser = require('body-parser');
 const HttpError = require('./model/http-error');
+const mongoose = require('mongoose');
 
 const app = express();
 
@@ -32,4 +33,9 @@ app.use((error, req, res, next) => {
 
 // app.use('/api/users', usersRoutes);
 
-app.listen(5000);
+const URL =
+  'mongodb+srv://olive4:hardfloor@nodejs.zzg9t.mongodb.net/test-nodejs_database?authSource=admin&replicaSet=atlas-fhng2k-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true';
+mongoose
+  .connect(URL)
+  .then(() => app.listen(5000))
+  .catch(err => console.log(err));
