@@ -22,21 +22,32 @@ let DUMMY_PLACES = [
   },
 ];
 
-const getPlaceById = (req, res, next) => {
+const getPlaceById = async (req, res, next) => {
   // console.log('/:pid');
   const placeId = req.params.pid; //{pid: 'p1'}
-  const place = DUMMY_PLACES.find(p => {
-    return p.id === placeId;
-  });
+  let place;
+  try {
+    place = await Place.findById(placeId);
+  } catch (err) {
+    const error = new HttpError(
+      'Something went wrong, could not find a place',
+      500
+    );
+    return next(error);
+  }
 
   if (!place) {
     // throw error -> sync
     // next -> use case of async error
-    throw new HttpError('Could not find a place for the provided id', 404);
+    const error = new HttpError(
+      'Could not find a place for the provided id',
+      404
+    );
     //  throw error; //already cancel execution
+    return next(error);
   }
 
-  res.json({ place }); //place:place
+  res.json({ place: place.toObject({ getters: true }) }); //place:place
 };
 
 const getPlacesByUserId = (req, res, next) => {
@@ -83,19 +94,10 @@ const createPlace = async (req, res, next) => {
   });
 
   try {
-    // console.log('save start');
     await createdPlace.save();
-    // console.log('save finished');
-
-    // await new Promise(resolve => {
-    //   setTimeout(() => {
-    //     console.log('wait this');
-    //     resolve('done');
-    //   }, 4000);
-    // });
   } catch (err) {
     const error = new HttpError('Creating place failed, please try again', 500);
-    return next(err);
+    return next(error);
   }
 
   // console.log('201');
