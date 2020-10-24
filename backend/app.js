@@ -4,7 +4,7 @@ const usersRoutes = require('./routes/users-routes');
 const express = require('express');
 
 const bodyParser = require('body-parser');
-const HttpError = require('./model/http-error');
+const HttpError = require('./models/http-error');
 const mongoose = require('mongoose');
 
 const app = express();
