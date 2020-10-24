@@ -26,7 +26,6 @@ let DUMMY_PLACES = [
 ];
 
 const getPlaceById = async (req, res, next) => {
-  // console.log('/:pid');
   const placeId = req.params.pid; //{pid: 'p1'}
   let place;
   try {
@@ -54,10 +53,8 @@ const getPlaceById = async (req, res, next) => {
 };
 
 const getPlacesByUserId = async (req, res, next) => {
-  // console.log('/user/:uid');
   const userId = req.params.uid; //{pid: 'p1'}
   let userWithPlaces;
-  // let places;
   try {
     userWithPlaces = await User.findById(userId).populate('places'); //  Place.find({ creator: userId });
   } catch (err) {
@@ -67,7 +64,6 @@ const getPlacesByUserId = async (req, res, next) => {
     );
     return next(error);
   }
-  // console.log(DUMMY_PLACES);
   if (!userWithPlaces || userWithPlaces.places.length === 0) {
     return next(
       new HttpError('Could not find a places for the provided user id', 404)
@@ -77,7 +73,7 @@ const getPlacesByUserId = async (req, res, next) => {
     places: userWithPlaces.places.map(place =>
       place.toObject({ getters: true })
     ),
-  }); //place:place
+  });
 };
 
 const createPlace = async (req, res, next) => {
@@ -126,7 +122,6 @@ const createPlace = async (req, res, next) => {
   console.log(user);
 
   try {
-    // await createdPlace.save();
     const sess = await mongoose.startSession();
     sess.startTransaction();
     await createdPlace.save({ session: sess });
@@ -139,7 +134,6 @@ const createPlace = async (req, res, next) => {
     return next(error);
   }
 
-  // console.log('201');
   res.status(201).json({ place: createdPlace });
 };
 
@@ -164,7 +158,6 @@ const updatePlace = async (req, res, next) => {
   }
   place.title = title;
   place.description = description;
-  // DUMMY_PLACES[placeIndex] = updatedPlace;
   try {
     await place.save();
   } catch (err) {
@@ -195,10 +188,7 @@ const deletePlace = async (req, res, next) => {
     return next(error);
   }
 
-  // DUMMY_PLACES = DUMMY_PLACES.filter(p => p.id !== placeId);
-
   try {
-    // await place.remove();
     const sess = await mongoose.startSession();
     sess.startTransaction();
     await place.remove({ session: sess });
@@ -221,7 +211,3 @@ exports.getPlacesByUserId = getPlacesByUserId;
 exports.createPlace = createPlace;
 exports.updatePlace = updatePlace;
 exports.deletePlace = deletePlace;
-/*
-const createPlace = (req, res, next) => {};
-
-*/
