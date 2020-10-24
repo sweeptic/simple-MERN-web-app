@@ -56,9 +56,10 @@ const getPlaceById = async (req, res, next) => {
 const getPlacesByUserId = async (req, res, next) => {
   // console.log('/user/:uid');
   const userId = req.params.uid; //{pid: 'p1'}
-  let places;
+  let userWithPlaces;
+  // let places;
   try {
-    places = await Place.find({ creator: userId });
+    userWithPlaces = await User.findById(userId).populate('places'); //  Place.find({ creator: userId });
   } catch (err) {
     const error = new HttpError(
       'Fetching places failed, please try again later',
@@ -67,12 +68,16 @@ const getPlacesByUserId = async (req, res, next) => {
     return next(error);
   }
   // console.log(DUMMY_PLACES);
-  if (!places || places.length === 0) {
+  if (!userWithPlaces || userWithPlaces.places.length === 0) {
     return next(
       new HttpError('Could not find a places for the provided user id', 404)
     );
   }
-  res.json({ places: places.map(place => place.toObject({ getters: true })) }); //place:place
+  res.json({
+    places: userWithPlaces.places.map(place =>
+      place.toObject({ getters: true })
+    ),
+  }); //place:place
 };
 
 const createPlace = async (req, res, next) => {
@@ -176,16 +181,30 @@ const deletePlace = async (req, res, next) => {
   const placeId = req.params.pid;
   let place;
   try {
-    place = await Place.findById(placeId);
+    place = await Place.findById(placeId).populate('creator');
   } catch (err) {
-    const error = new HttpError('Could not find a place for that id', 500);
+    const error = new HttpError(
+      'Something went wrong, could not delete place.',
+      500
+    );
+    return next(error);
+  }
+
+  if (!place) {
+    const error = new HttpError('Could not find a place for this id', 404);
     return next(error);
   }
 
   // DUMMY_PLACES = DUMMY_PLACES.filter(p => p.id !== placeId);
 
   try {
-    await place.remove();
+    // await place.remove();
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await place.remove({ session: sess });
+    place.creator.places.pull(place);
+    await place.creator.save({ session: sess });
+    await sess.commitTransaction();
   } catch (err) {
     const error = new HttpError(
       'Something went wrong - in save, could not deleting a place ',
