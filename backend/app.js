@@ -8,7 +8,7 @@ const HttpError = require('./model/http-error');
 const mongoose = require('mongoose');
 
 const app = express();
-
+mongoose.set('useCreateIndex', true);
 //urlencoded - form data
 //json - parse incoming req body  and convert  json object
 app.use(bodyParser.json({ extended: false }));
