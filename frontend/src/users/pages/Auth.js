@@ -27,9 +27,31 @@ const Auth = () => {
     },
   });
 
-  const authSubmitHandler = (event) => {
+  const authSubmitHandler = async event => {
     event.preventDefault();
-    console.log(formState.inputs);
+
+    if (isLoginMode) {
+    } else {
+      try {
+        // console.log(formState.inputs);
+        const response = await fetch('http://localhost:5000/api/users/signup', {
+          method: 'POST',
+          header: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: formState.inputs.name.value,
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value,
+          }),
+        });
+        const responseData = await response.json();
+        console.log(responseData);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
     auth.login();
   };
 
@@ -57,45 +79,45 @@ const Auth = () => {
       );
     }
 
-    setIsLoginMode((prevMode) => !prevMode);
+    setIsLoginMode(prevMode => !prevMode);
   };
 
   return (
-    <Card className="authentication">
+    <Card className='authentication'>
       <h2>Login Required</h2>
       <hr />
       <form onSubmit={authSubmitHandler}>
         {!isLoginMode && (
           <Input
-            id="name"
-            element="input"
-            type="text"
-            label="Your Name"
+            id='name'
+            element='input'
+            type='text'
+            label='Your Name'
             validators={[VALIDATOR_REQUIRE()]}
-            errorText="Please enter a name."
+            errorText='Please enter a name.'
             onInput={inputHandler}
           />
         )}
 
         <Input
-          id="email"
-          element="input"
-          type="email"
-          label="E-mail"
+          id='email'
+          element='input'
+          type='email'
+          label='E-mail'
           validators={[VALIDATOR_EMAIL(), VALIDATOR_REQUIRE()]}
-          errorText="Please enter a valid email address."
+          errorText='Please enter a valid email address.'
           onInput={inputHandler}
         />
         <Input
-          id="password"
-          element="input"
-          type="password"
-          label="Password"
+          id='password'
+          element='input'
+          type='password'
+          label='Password'
           validators={[VALIDATOR_MINLENGTH(5)]}
-          errorText="Please enter a valid password, at least 5 characters."
+          errorText='Please enter a valid password, at least 5 characters.'
           onInput={inputHandler}
         />
-        <Button type="submit" disabled={!formState.isValid}>
+        <Button type='submit' disabled={!formState.isValid}>
           {isLoginMode ? 'LOGIN' : 'SIGNUP'}
         </Button>
       </form>
