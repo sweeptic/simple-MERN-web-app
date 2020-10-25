@@ -27,13 +27,13 @@ const DUMMY_PLACES = [
       lat: 40.7484405,
       lng: -73.9878584,
     },
-    creator: 'u2',
+    creator: 'u1',
   },
 ];
 
 const UserPlaces = () => {
   const userId = useParams().userId;
-  const loadPlaces = DUMMY_PLACES.filter((place) => place.creator === userId);
+  const loadPlaces = DUMMY_PLACES.filter(place => place.creator === userId);
   return <PlaceList items={loadPlaces} />;
 };
 
