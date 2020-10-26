@@ -29,20 +29,20 @@ const App = () => {
   if (isLoggedIn) {
     routes = (
       <Switch>
-        <Route path="/" exact component={Users} />
-        <Route path="/:userId/places" exact component={UserPlaces} />
-        <Route path="/places/new" exact component={NewPlace} />
-        <Route path="/places/:placeId" component={UpdatePlace} />
-        <Redirect to="/" />
+        <Route path='/' exact component={Users} />
+        <Route path='/:userId/places' exact component={UserPlaces} />
+        <Route path='/places/new' exact component={NewPlace} />
+        <Route path='/places/:placeId' component={UpdatePlace} />
+        <Redirect to='/' />
       </Switch>
     );
   } else {
     routes = (
       <Switch>
-        <Route path="/" exact component={Users} />
-        <Route path="/:userId/places" exact component={UserPlaces} />
-        <Route path="/auth" component={Auth} />
-        <Redirect to="/auth" />
+        <Route path='/' exact component={Users} />
+        <Route path='/:userId/places' exact component={UserPlaces} />
+        <Route path='/auth' component={Auth} />
+        <Redirect to='/auth' />
       </Switch>
     );
   }
