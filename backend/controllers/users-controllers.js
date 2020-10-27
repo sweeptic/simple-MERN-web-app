@@ -31,7 +31,6 @@ const getUsers = async (req, res, next) => {
 const signup = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    // console.log(errors);
     return next(
       new HttpError('Invalid inputs passed, please check your data', 422)
     );
@@ -62,8 +61,7 @@ const signup = async (req, res, next) => {
   const createdUser = new User({
     name,
     email,
-    image:
-      'https://previews.123rf.com/images/vikasuh/vikasuh1107/vikasuh110700323/10042501-funny-white-robot-stay-show-hello.jpg',
+    image: req.file.path,
     password,
     places: [],
   });
