@@ -1,18 +1,8 @@
 const { validationResult } = require('express-validator');
-const { v4: uuid } = require('uuid');
 const HttpError = require('../models/http-error');
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
-let DUMMY_USERS = [
-  {
-    id: 'u1',
-    name: 'Test User',
-    email: 'test@test.com',
-    password: 'abc',
-  },
-];
 
 const getUsers = async (req, res, next) => {
   let users;
@@ -167,8 +157,3 @@ const login = async (req, res, next) => {
 exports.getUsers = getUsers;
 exports.signup = signup;
 exports.login = login;
-
-/*
- const createPlace = (req, res, next) => {};
- 
- */

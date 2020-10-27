@@ -10,21 +10,6 @@ const getCoordsForAddress = require('../util/location');
 const Place = require('../models/place');
 const User = require('../models/user');
 const mongoose = require('mongoose');
-const mongooseUniqueValidator = require('mongoose-unique-validator');
-
-let DUMMY_PLACES = [
-  {
-    id: 'p1',
-    title: 'Empire State Building',
-    description: 'One of the most famous scrapers in the world!',
-    location: {
-      lat: 40.7484533,
-      lng: -73.9881007,
-    },
-    address: 'fssfdfsdfs',
-    creator: 'u1',
-  },
-];
 
 const getPlaceById = async (req, res, next) => {
   const placeId = req.params.pid; //{pid: 'p1'}
