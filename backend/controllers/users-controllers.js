@@ -103,9 +103,26 @@ const login = async (req, res, next) => {
     return next(error);
   }
 
-  if (!existingUser || existingUser.password !== password) {
+  if (!existingUser) {
     const error = new HttpError(
       'Could not identify user, credentials seem to be wrong.',
+      401
+    );
+    return next(error);
+  }
+
+  let isValidPassword = false;
+  try {
+    isValidPassword = await bcrypt.compare(password, existingUser.password); //true or false
+  } catch (err) {
+    //something went wrong in the comparison
+    const error = new HttpError('Something went wrong in the comparison.', 500);
+    return next(error);
+  }
+
+  if (!isValidPassword) {
+    const error = new HttpError(
+      'The password is not correct, please try again.',
       401
     );
     return next(error);
