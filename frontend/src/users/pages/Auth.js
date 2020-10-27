@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import './Auth.css';
 import Card from './../../shared/components/UIElements/Card';
 import Input from './../../shared/components/Formelements/Input';
 import Button from './../../shared/components/Formelements/Button';
@@ -13,6 +12,9 @@ import { AuthContext } from './../../shared/context/auth-context';
 import ErrorModal from './../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from './../../shared/components/UIElements/LoadingSpinner';
 import { useHttpClient } from './../../shared/hooks/http-hook';
+import ImageUpload from './../../shared/components/Formelements/ImageUpload';
+
+import './Auth.css';
 
 const Auth = () => {
   const auth = useContext(AuthContext);
@@ -116,7 +118,7 @@ const Auth = () => {
               onInput={inputHandler}
             />
           )}
-
+          {!isLoginMode && <ImageUpload center id='image' />}
           <Input
             id='email'
             element='input'
