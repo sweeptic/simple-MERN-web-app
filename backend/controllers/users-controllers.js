@@ -94,7 +94,7 @@ const signup = async (req, res, next) => {
       'supersecret_dont_share',
       { expiresIn: '1h' }
     );
-  } catch (error) {
+  } catch (err) {
     const error = new HttpError('Signing up failed, please try again.', 500);
     return next(error);
   }
@@ -151,14 +151,15 @@ const login = async (req, res, next) => {
       'supersecret_dont_share',
       { expiresIn: '1h' }
     );
-  } catch (error) {
+  } catch (err) {
     const error = new HttpError('Logging in failed, please try again.', 500);
     return next(error);
   }
 
+  console.log('auth success');
   res.json({
-    userId: createdUser.id,
-    email: createdUser.email,
+    userId: existingUser.id,
+    email: existingUser.email,
     token: token,
   });
 };
