@@ -97,7 +97,7 @@ const createPlace = async (req, res, next) => {
     address,
     location: coordinates,
     image:
-      'https://en.wikipedia.org/wiki/File:Empire_State_Building_(aerial_view).jpg',
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/400px-Empire_State_Building_%28aerial_view%29.jpg', // => File Up
     creator,
   });
 

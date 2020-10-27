@@ -41,6 +41,8 @@ const PlaceItem = props => {
     } catch (error) {}
   };
 
+  console.log(auth.userId + ', ' + props.creatorId);
+
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
