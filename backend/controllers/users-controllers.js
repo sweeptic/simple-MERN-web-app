@@ -8,7 +8,7 @@ const getUsers = async (req, res, next) => {
   let users;
 
   try {
-    users = await User.find({}, '-password');
+    users = await User.find({}, '-password'); //exclude password
   } catch (err) {
     const error = new HttpError(
       'Fetching users failed, please try again later.',
