@@ -53,8 +53,7 @@ app.use((error, req, res, next) => {
 
 // app.use('/api/users', usersRoutes);
 
-const URL =
-  'mongodb+srv://olive4:hardfloor@nodejs.zzg9t.mongodb.net/MERN_test-nodejs_database?authSource=admin&replicaSet=atlas-fhng2k-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true';
+const URL = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@nodejs.zzg9t.mongodb.net/${process.env.DB_NAME}?authSource=admin&replicaSet=atlas-fhng2k-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true`;
 mongoose
   .connect(URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => app.listen(5000))

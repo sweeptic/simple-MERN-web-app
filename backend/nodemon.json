@@ -1,0 +1,8 @@
+{
+   "env": {
+      "DB_USER": "olive4",
+      "DB_PASSWORD": "hardfloor",
+      "DB_NAME": "MERN_test-nodejs_database",
+      "JWT_KEY" : "supersecret_dont_share"
+   }
+}
