@@ -112,7 +112,7 @@ const login = async (req, res, next) => {
   if (!existingUser) {
     const error = new HttpError(
       'Could not identify user, credentials seem to be wrong.',
-      401
+      403
     );
     return next(error);
   }
